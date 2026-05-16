@@ -1,0 +1,23 @@
+services:
+  frontend:
+    replicas: 1
+  cartservice:
+    replicas: 1
+  checkoutservice:
+    replicas: 1
+  recommendationservice:
+    replicas: 1
+  productcatalogservice:
+    replicas: 1
+  currencyservice:
+    replicas: 1
+  paymentservice:
+    replicas: 1
+  shippingservice:
+    replicas: 1
+  emailservice:
+    replicas: 1
+  adservice:
+    replicas: 1
+  loadgenerator:
+    replicas: 1

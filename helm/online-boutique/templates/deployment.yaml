@@ -1,0 +1,41 @@
+{{- range $name, $service := .Values.services }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    app: {{ $name }}
+spec:
+  replicas: {{ $service.replicas }}
+  selector:
+    matchLabels:
+      app: {{ $name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $name }}
+    spec:
+      containers:
+      - name: {{ $name }}
+        image: {{ $service.image }}:{{ $service.tag }}
+        ports:
+        {{- if $service.port }}
+        - containerPort: {{ $service.port }}
+        {{- end }}
+        env:
+        {{- if $service.env }}
+        {{- range $key, $value := $service.env }}
+        - name: {{ $key }}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- end }}
+        resources:
+          requests:
+            cpu: {{ $service.resources.requests.cpu }}
+            memory: {{ $service.resources.requests.memory }}
+          limits:
+            cpu: {{ $service.resources.limits.cpu }}
+            memory: {{ $service.resources.limits.memory }}
+{{- end }}
